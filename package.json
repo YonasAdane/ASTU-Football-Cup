@@ -1,0 +1,20 @@
+{
+  "name": "astu-football-cup-back",
+  "version": "1.0.0",
+  "description": "football website for ASTU ",
+  "main": "index.js",
+  "scripts": {
+    "dev":"nodemon ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "3Y",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.21.1",
+    "mongoose": "^8.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
