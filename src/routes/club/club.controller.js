@@ -1,7 +1,7 @@
 
 //Retrieves the list of all clubs.
 async function getClubsHandler(req,res){
-
+    
 }
 //Retrieves details of a specific club by ID.
 async function clubsDetailsHandler(req,res){

@@ -1,8 +1,8 @@
 import express from 'express'
-import { getClubsHandler,clubsDetailsHandler,createClubHandler,updateClubHandler,deleteClubHandler} from './club/club.controller';
-import { createMatchesHandler, deleteMatchesHandler, getMatchesHandler, matchesDetailsHandler, reportGoalMatchesHandler, updateMatchesHandler } from './matches/matches.controller';
-import { createScheduleHandler, deleteScheduleHandler, getScheduleHandler, ScheduleDetailsHandler, updateScheduleHandler } from './schedule/schedule.controller';
-import { createPlayerHandler, deletePlayerHandler, getPlayerHandler, playerDetailsHandler, updatePlayerHandler } from './player/player.controller';
+import { getClubsHandler,clubsDetailsHandler,createClubHandler,updateClubHandler,deleteClubHandler} from './club/club.controller.js';
+import { createMatchesHandler, deleteMatchesHandler, getMatchesHandler, matchesDetailsHandler, reportGoalMatchesHandler, updateMatchesHandler } from './matches/matches.controller.js';
+import { createScheduleHandler, deleteScheduleHandler, getScheduleHandler, ScheduleDetailsHandler, updateScheduleHandler } from './schedule/schedule.controller.js';
+import { createPlayerHandler, deletePlayerHandler, getPlayerHandler, playerDetailsHandler, updatePlayerHandler } from './player/player.controller.js';
 const app=express.Router();
 
 app.get('/clubs',getClubsHandler);
