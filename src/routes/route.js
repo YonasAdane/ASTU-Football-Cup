@@ -1,6 +1,6 @@
 import express from 'express'
 import { getClubsHandler,clubsDetailsHandler,createClubHandler,updateClubHandler,deleteClubHandler} from './club/club.controller.js';
-import { createMatchesHandler, deleteMatchesHandler, getMatchesHandler, matchesDetailsHandler, reportGoalMatchesHandler, updateMatchesHandler } from './matches/matches.controller.js';
+import { createMatchesHandler, deleteMatchesHandler, getMatchesHandler, matchesDetailsHandler, addGoalMatchesHandler, updateMatchesHandler } from './matches/matches.controller.js';
 import { createScheduleHandler, deleteScheduleHandler, getScheduleHandler, ScheduleDetailsHandler, updateScheduleHandler } from './schedule/schedule.controller.js';
 import { createPlayerHandler, deletePlayerHandler, getPlayerHandler, playerDetailsHandler, updatePlayerHandler } from './player/player.controller.js';
 const app=express.Router();
@@ -16,7 +16,7 @@ app.get('/matches',getMatchesHandler)
 app.get('/matches/:id',matchesDetailsHandler)
 app.post('/matches',createMatchesHandler)
 app.patch('/matches/:id',updateMatchesHandler)
-app.post('/matches/:id/goals',reportGoalMatchesHandler)
+app.post('/matches/:id/addGoals',addGoalMatchesHandler)
 app.delete('/matches/:id',deleteMatchesHandler)
 
 
