@@ -35,11 +35,10 @@ export async function createMatch(clubOneId, clubTwoId, date) {
 
     await match.save();
 
-    // console.log('Match created successfully:', match);
     return match;
 
   } catch (error) {
-    console.error('Error creating match:', error);
+    throw new Error('Error creating match');
   }
 }
 
@@ -55,7 +54,6 @@ export async function DeleteMatch(MatchId){
 
 export async function UpdateMatch(matchId, updateData) {
   try {
-    // Find and update the match with the provided data
     const updatedMatch = await Match.findByIdAndUpdate(
       matchId, 
       { $set: updateData }, 
@@ -67,10 +65,8 @@ export async function UpdateMatch(matchId, updateData) {
       return null;
     }
 
-    // console.log("Match updated:", updatedMatch);
     return updatedMatch;
   } catch (error) {
-    // console.error("Error updating match:", error);
     throw error;
   }
 }

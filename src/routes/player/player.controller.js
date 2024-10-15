@@ -1,5 +1,5 @@
 import cloudinary from "../../utils/cloudinary.js";
-import { DeletePlayer,PlayerDetail,CreatePlayer, FindAllPlayers } from "./player.service.js"
+import { DeletePlayer,PlayerDetail,CreatePlayer, FindAllPlayers, UpdatePlayer } from "./player.service.js"
 
 async function getPlayerHandler(req,res){
 const players=await FindAllPlayers();
@@ -20,7 +20,7 @@ async function createPlayerHandler(req,res){
 async function updatePlayerHandler(req,res){
     const playerId=req.params.id;
     const data=req.body;
-    const player= updatePlayerHandler(playerId,data);
+    const player= UpdatePlayer(playerId,data);
     return res.json(player);
 }
 async function playerDetailsHandler(req,res){

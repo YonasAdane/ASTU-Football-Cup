@@ -22,8 +22,22 @@ export async function DeletePlayer(PlayerId){
     return player;
 }
 export async function UpdatePlayer(PlayerId,data){
-    const player=await Player.updateOne({_id:PlayerId},{...data});
-    return player;
+    try {
+        const player = await Player.findByIdAndUpdate(
+            PlayerId, 
+          { $set: data }, 
+          { new: true } 
+        );
+    
+        if (!player) {
+          console.log("Player not found");
+          return null;
+        }
+    
+        return player;
+      } catch (error) {
+        throw error;
+      }
 }
 export async function PlayerDetail(PlayerId){
     const player=await Player.findById(PlayerId);
