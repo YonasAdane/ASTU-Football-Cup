@@ -1,3 +1,4 @@
+import cloudinary from "../../utils/cloudinary.js";
 import { DeletePlayer,PlayerDetail,CreatePlayer, FindAllPlayers } from "./player.service.js"
 
 async function getPlayerHandler(req,res){
@@ -5,8 +6,15 @@ const players=await FindAllPlayers();
 return res.json(players)
 }
 async function createPlayerHandler(req,res){
-    const {name,positon,jerseynumber,goals,assist}=req.body;
-    const player=await CreatePlayer(name,positon,jerseynumber,goals,assist);
+    const {name,positon,jerseynumber,goals,assist,avatar}=req.body;
+    const uploadResult = await cloudinary.uploader
+       .upload(
+        avatar,
+         {
+               folder:"ASTU-sport/playerAvatar"
+           }
+       )
+    const player=await CreatePlayer(name,positon,jerseynumber,goals,assist,uploadResult.publicId,uploadResult.logoUrl);
     return res.json(player); 
 }  
 async function updatePlayerHandler(req,res){

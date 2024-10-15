@@ -12,7 +12,6 @@ export async function createMatch(clubOneId, clubTwoId, date) {
     if (!mongoose.Types.ObjectId.isValid(clubOneId) || !mongoose.Types.ObjectId.isValid(clubTwoId)) {
       throw new Error('Invalid club IDs');
     }
-
     // Ensure that ClubOne and ClubTwo are not the same
     if (clubOneId === clubTwoId) {
       throw new Error('A match cannot be between the same club');

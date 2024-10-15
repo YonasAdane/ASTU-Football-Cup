@@ -3,6 +3,10 @@ const { Schema } = mongoose;
 
 const playerSchema = new Schema({
     name: { type: String, required: true },
+    avatar:{
+      public_id:String,
+      url:String
+    },
     club: { type: Schema.Types.ObjectId, ref: 'Club' },
     position: { type: String },  // E.g. Forward, Midfielder
     jerseyNumber: { type: Number },

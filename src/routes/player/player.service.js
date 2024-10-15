@@ -3,13 +3,17 @@ export async function FindAllPlayers(){
     const player=await Player.find({});
     return player;
 }
-export async function CreatePlayer(name,position,jerseyNumber,goals,assist){
+export async function CreatePlayer(name,position,jerseyNumber,goals,assist,publicId,avatarUrl){
     const player=await Player.create({
         name,
         position,
         jerseyNumber,
         goals,
-        assist
+        assist,
+        avatar:{
+            public_id:publicId,
+            url:avatarUrl
+          }
     })
     return player;
 }

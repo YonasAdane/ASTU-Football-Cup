@@ -5,11 +5,14 @@ export async function FindAllClubs(){
     const clubs=await Club.find({});
     return clubs;
 }
-export async function CreateClub(name,coach){
+export async function CreateClub(name,coach,publicId,logoUrl){
     const club=await Club.create({
         name,
         coach,
-        // players:players.map(id=>mongoose.Types.ObjectId(id))
+        logo:{
+            public_id:publicId,
+            url:logoUrl
+          }
     })
     return club;
 }
