@@ -1,5 +1,5 @@
 import { uploadToCloudinary } from "../../utils/uploadToCloud.js";
-import { ClubDetail, CreateClub, FindAllClubs } from "./club.service.js"
+import { ClubDetail, CreateClub, DeleteClub, FindAllClubs } from "./club.service.js"
 
 async function createClubHandler(req, res) {
     try {
@@ -9,9 +9,8 @@ async function createClubHandler(req, res) {
         if (!req.file) {
             return res.status(400).json({ message: "No file uploaded" });
         }
-
         // Upload file buffer to Cloudinary
-        const uploadResult = await uploadToCloudinary(req.file.buffer);
+        const uploadResult = await uploadToCloudinary(req.file.buffer,"club-logo");
 
         // Create the club with the uploaded image details
         const club = await CreateClub(name, coach, uploadResult.public_id, uploadResult.secure_url);
@@ -44,6 +43,7 @@ async function updateClubHandler(req,res){
 //Deletes a football club by ID.
 async function deleteClubHandler(req,res){
     const ClubId=req.params.id;
+    console.log(ClubId);
     const club=await DeleteClub(ClubId)
     return res.json(club);    
 }
