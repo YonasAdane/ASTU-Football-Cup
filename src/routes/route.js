@@ -8,16 +8,27 @@ import { validateData } from '../middleware/validation.middleware.js';
 import { createClubSchema, updateClubScheme } from './club/club.schema.js';
 import { addCardSchema, addGoalMatchSchema, createMatchSchema, updateMatchSchema } from './matches/matches.schema.js';
 import { createPlayerSchema, updatePlayerSchema } from './player/player.schema.js';
+import multer from 'multer';
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage }); 
 
 const app=express.Router();
-
+app.use(express.json());
+ 
 app.post("/login",loginHandler);
 app.post("/register",registerHandler)
 app.get("/logout",logoutHandler)
 
 app.get('/clubs',getClubsHandler);
 app.get('/clubs/:id',clubsDetailsHandler);
-app.post('/clubs',validateData(createClubSchema),createClubHandler)
+// validateData(createClubSchema) createClubHandler
+app.post('/clubs', upload.single('logo'),createClubHandler
+    // upload.single('logo'),(req,res)=>{
+    // const body= req.body; 
+    // console.log(req.file);
+    // return res.json(req.file) 
+// }
+)
 app.patch('/clubs/:id',validateData(updateClubScheme),updateClubHandler)
 app.delete('/clubs/:id',deleteClubHandler)
 

@@ -1,7 +1,27 @@
-import cloudinary from "../../utils/cloudinary.js";
+import { uploadToCloudinary } from "../../utils/uploadToCloud.js";
 import { ClubDetail, CreateClub, FindAllClubs } from "./club.service.js"
 
-//Retrieves the list of all clubs.
+async function createClubHandler(req, res) {
+    try {
+        const { name, coach } = req.body;
+
+        // Ensure a file was uploaded
+        if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded" });
+        }
+
+        // Upload file buffer to Cloudinary
+        const uploadResult = await uploadToCloudinary(req.file.buffer);
+
+        // Create the club with the uploaded image details
+        const club = await CreateClub(name, coach, uploadResult.public_id, uploadResult.secure_url);
+
+        return res.json(club);
+    } catch (error) {
+        console.error("Error creating club:", error);
+        return res.status(500).json({ message: "An error occurred while creating the club.", error });
+    }
+}
 async function getClubsHandler(req,res){
    const clubs=await  FindAllClubs();
    return res.json(clubs);
@@ -12,18 +32,8 @@ async function clubsDetailsHandler(req,res){
     const club=await ClubDetail(clubId);
     return res.json(club)
 }
-//Creates a new football  club.
-async function createClubHandler(req,res){
-    const {name,coach,logo}=req.body;
-    const uploadResult = await cloudinary.uploader
-       .upload(
-           logo, {
-               folder:"ASTU-sport/club-logo"
-           }
-       )
-    const club=await CreateClub(name,coach,uploadResult.publicId,uploadResult.logoUrl);
-    return res.json(club);
-} 
+
+
 //Updates an existing football club by ID.
 async function updateClubHandler(req,res){
     const data=req.body;

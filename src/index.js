@@ -5,9 +5,9 @@ import cors from "cors";
 import { routes } from "./routes/route.js";
 import mongoose from "mongoose";
 const app=express();
+app.use(cors())
 const PORT=process.env.PORT;
 app.use(express.json())
-app.use(cors())
 app.use(helmet())
 app.get("/",(req,res)=>{
     res.json({message:"welcome to ASTU FC"})
