@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { errorHandler } from "./middleware/errorhandler.middleware.js";
 const app=express();
 
 app.use(session({
@@ -28,6 +29,7 @@ app.get("/",(req,res)=>{
     res.json({message:"welcome to ASTU FC"})
 })
 app.use('/api/v1',routes)
+app.use(errorHandler)
 app.listen(PORT,()=>{
     console.log(`running on port ${PORT}`)
 })

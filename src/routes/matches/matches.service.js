@@ -38,7 +38,7 @@ export async function createMatch(clubOneId, clubTwoId, date) {
     return match;
 
   } catch (error) {
-    throw new Error('Error creating match');
+    throw  error;
   }
 }
 

@@ -23,8 +23,6 @@ app.post("/register",validateData(RegisterSchema),registerHandler)
 app.get("/logout",logoutHandler)
 app.get("/auth/google",passport.authenticate("google"))
 app.get("/auth/google/callback",passport.authenticate("google"),(req,res)=>{
-    console.log(req.session);
-    console.log(req.user);
     res.sendStatus(200);
 })
 
@@ -37,7 +35,8 @@ app.delete('/clubs/:id',deleteClubHandler)
 
 app.get('/matches',getMatchesHandler)
 app.get('/matches/:id',matchesDetailsHandler)
-app.post('/matches',validateData(createMatchSchema),createMatchesHandler)
+//validateData(createMatchSchema),
+app.post('/matches',createMatchesHandler)
 app.patch('/matches/:id',validateData(updateMatchSchema),updateMatchesHandler)
 app.post('/matches/:id/addGoals',validateData(addGoalMatchSchema),addGoalMatchesHandler)
 app.delete('/matches/:id',deleteMatchesHandler)

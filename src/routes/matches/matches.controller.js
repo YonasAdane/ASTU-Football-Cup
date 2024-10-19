@@ -1,4 +1,4 @@
-import { FindAllMatches, MatchDetail, UpdateMatch } from "./matches.service.js"
+import { createMatch, FindAllMatches, MatchDetail, UpdateMatch } from "./matches.service.js"
 
 //Retrieves a list of all matches, along with their status and scores.
 async function getMatchesHandler(req,res){
@@ -14,6 +14,7 @@ async function matchesDetailsHandler(req,res){
 //Creates a new match between two clubs.
 async function createMatchesHandler(req,res){
     const {clubOneId, clubTwoId, date}=req.body;
+    console.log(req.body); 
     const match=await createMatch(clubOneId, clubTwoId, date)
     return res.json(match)
 }
