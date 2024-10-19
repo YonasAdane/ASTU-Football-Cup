@@ -3,23 +3,30 @@ import { getClubsHandler,clubsDetailsHandler,createClubHandler,updateClubHandler
 import { createMatchesHandler, deleteMatchesHandler,addCardHandler, getMatchesHandler, matchesDetailsHandler, addGoalMatchesHandler, updateMatchesHandler } from './matches/matches.controller.js';
 import { createScheduleHandler, deleteScheduleHandler, getScheduleHandler, ScheduleDetailsHandler, updateScheduleHandler } from './schedule/schedule.controller.js';
 import { createPlayerHandler, deletePlayerHandler, getPlayerHandler, playerDetailsHandler, updatePlayerHandler } from './player/player.controller.js';
-import { loginHandler, logoutHandler, registerHandler } from './auth/auth.controller.js';
+import { logoutHandler, registerHandler } from './auth/auth.controller.js';
 import { validateData } from '../middleware/validation.middleware.js';
 import { createClubSchema, updateClubScheme } from './club/club.schema.js';
 import { addCardSchema, addGoalMatchSchema, createMatchSchema, updateMatchSchema } from './matches/matches.schema.js';
 import { createPlayerSchema, updatePlayerSchema } from './player/player.schema.js';
 import multer from 'multer';
 import passport from '../utils/passport.js';
+import { LoginSchema, RegisterSchema } from './auth/auth.schema.js';
+
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage }); 
 
 const app=express.Router();
 app.use(express.json());
  
-app.post("/login",loginHandler);
-app.post("/register",registerHandler)
+app.post("/login",validateData(LoginSchema),passport.authenticate("local"));
+app.post("/register",validateData(RegisterSchema),registerHandler)
 app.get("/logout",logoutHandler)
 app.get("/auth/google",passport.authenticate("google"))
+app.get("/auth/google/callback",passport.authenticate("google"),(req,res)=>{
+    console.log(req.session);
+    console.log(req.user);
+    res.sendStatus(200);
+})
 
 app.get('/clubs',getClubsHandler);
 app.get('/clubs/:id',clubsDetailsHandler);

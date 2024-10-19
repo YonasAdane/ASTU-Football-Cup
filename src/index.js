@@ -5,12 +5,17 @@ import cors from "cors";
 import { routes } from "./routes/route.js";
 import mongoose from "mongoose";
 import passport from "passport";
-import cookieSession from "cookie-session";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 const app=express();
 
-app.use(
-    cookieSession({ name: "session", keys: [process.env.SESSION_KEY], maxAge: 24 * 60 * 60 * 1000*7 })
-  );
+app.use(session({
+    secret: process.env.SESSION_KEY,
+    store: MongoStore.create({ mongoUrl:process.env.MONGO_URI }),
+    resave: false, 
+    saveUninitialized: false, 
+}));
+
   
   app.use(passport.initialize());
   app.use(passport.session());
