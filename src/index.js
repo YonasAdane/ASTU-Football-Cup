@@ -4,7 +4,17 @@ import 'dotenv/config';
 import cors from "cors";
 import { routes } from "./routes/route.js";
 import mongoose from "mongoose";
+import passport from "passport";
+import cookieSession from "cookie-session";
 const app=express();
+
+app.use(
+    cookieSession({ name: "session", keys: [process.env.SESSION_KEY], maxAge: 24 * 60 * 60 * 1000*7 })
+  );
+  
+  app.use(passport.initialize());
+  app.use(passport.session());
+  
 app.use(cors())
 const PORT=process.env.PORT;
 app.use(express.json())

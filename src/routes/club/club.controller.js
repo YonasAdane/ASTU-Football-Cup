@@ -4,7 +4,7 @@ import { ClubDetail, CreateClub, DeleteClub, FindAllClubs } from "./club.service
 async function createClubHandler(req, res) {
     try {
         const { name, coach } = req.body;
-
+        console.log("req body: ",req.body);
         // Ensure a file was uploaded
         if (!req.file) {
             return res.status(400).json({ message: "No file uploaded" });

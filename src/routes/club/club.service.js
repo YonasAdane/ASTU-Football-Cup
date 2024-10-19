@@ -21,7 +21,11 @@ export async function DeleteClub(ClubId){
     return club;
 }
 export async function UpdateClub(ClubId,data){
-    const club=await Club.updateOne({_id:ClubId},{...data});
+    const club=await Club.findByIdAndUpdate(
+        ClubId, 
+        { $set: data }, 
+        { new: true } 
+      );
     return club;
 }
 export async function ClubDetail(ClubId){

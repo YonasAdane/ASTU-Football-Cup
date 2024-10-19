@@ -9,6 +9,7 @@ import { createClubSchema, updateClubScheme } from './club/club.schema.js';
 import { addCardSchema, addGoalMatchSchema, createMatchSchema, updateMatchSchema } from './matches/matches.schema.js';
 import { createPlayerSchema, updatePlayerSchema } from './player/player.schema.js';
 import multer from 'multer';
+import passport from '../utils/passport.js';
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage }); 
 
@@ -18,17 +19,12 @@ app.use(express.json());
 app.post("/login",loginHandler);
 app.post("/register",registerHandler)
 app.get("/logout",logoutHandler)
+app.get("/auth/google",passport.authenticate("google"))
 
 app.get('/clubs',getClubsHandler);
 app.get('/clubs/:id',clubsDetailsHandler);
-// validateData(createClubSchema) createClubHandler
-app.post('/clubs', upload.single('logo'),createClubHandler
-    // upload.single('logo'),(req,res)=>{
-    // const body= req.body; 
-    // console.log(req.file);
-    // return res.json(req.file) 
-// }
-)
+app.post('/clubs', upload.single('logo'),validateData(createClubSchema),createClubHandler)
+//TODO: after I finish CRUD on Players do this
 app.patch('/clubs/:id',validateData(updateClubScheme),updateClubHandler)
 app.delete('/clubs/:id',deleteClubHandler)
 
