@@ -11,13 +11,16 @@ import { createClubSchema, updateClubScheme } from './club/club.schema.js';
 import { addCardSchema, addGoalMatchSchema, createMatchSchema, updateMatchSchema } from './matches/matches.schema.js';
 import { createPlayerSchema, updatePlayerSchema } from './player/player.schema.js';
 import { LoginSchema, RegisterSchema } from './auth/auth.schema.js';
-
+import swaggerUi from "swagger-ui-express"
+// import { serve as swaggerUi } from 'swagger-ui-express';
+import { swaggerDocument } from '../utils/swagger/importjson.js';
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage }); 
 
 const app=express.Router();
 app.use(express.json());
- 
+app.use('/api-docs', swaggerUi.serve);
+app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 app.post("/login",validateData(LoginSchema),passport.authenticate("local"));
 app.get("/login/failed",(req,res)=>{res.status(401).json({message:"Authentication Failed"})});
 app.get("/login/success",(req,res)=>{res.status(200).json({message:"successful"})});
