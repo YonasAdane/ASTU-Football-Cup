@@ -1,9 +1,5 @@
 import User from "../../models/user.js";
 
-async function loginHandler(req,res){
-
-}
-
 async function registerHandler(req,res){
     let {name,email,password,}=req.body;
     try {
@@ -23,16 +19,12 @@ async function registerHandler(req,res){
 }   
 
 async function logoutHandler(req,res){
-    req.logout((err)=> {
-        if (err) {
-            console.error('Error logging out:', err);
-        }
-        return res.json({message:'You are logged out'});
-        });
-}
+    req.logout()
+    return res.redirect(CLIENT_URL);
+    }
+
 
 export {
-loginHandler,
 registerHandler,
 logoutHandler,
 }

@@ -1,4 +1,6 @@
 import express from 'express'
+import multer from 'multer';
+import passport from '../utils/passport.js';
 import { getClubsHandler,clubsDetailsHandler,createClubHandler,updateClubHandler,deleteClubHandler} from './club/club.controller.js';
 import { createMatchesHandler, deleteMatchesHandler,addCardHandler, getMatchesHandler, matchesDetailsHandler, addGoalMatchesHandler, updateMatchesHandler } from './matches/matches.controller.js';
 import { createScheduleHandler, deleteScheduleHandler, getScheduleHandler, ScheduleDetailsHandler, updateScheduleHandler } from './schedule/schedule.controller.js';
@@ -8,8 +10,6 @@ import { validateData } from '../middleware/validation.middleware.js';
 import { createClubSchema, updateClubScheme } from './club/club.schema.js';
 import { addCardSchema, addGoalMatchSchema, createMatchSchema, updateMatchSchema } from './matches/matches.schema.js';
 import { createPlayerSchema, updatePlayerSchema } from './player/player.schema.js';
-import multer from 'multer';
-import passport from '../utils/passport.js';
 import { LoginSchema, RegisterSchema } from './auth/auth.schema.js';
 
 const storage = multer.memoryStorage(); 
@@ -19,12 +19,15 @@ const app=express.Router();
 app.use(express.json());
  
 app.post("/login",validateData(LoginSchema),passport.authenticate("local"));
+app.get("/login/failed",(req,res)=>{res.status(401).json({message:"Authentication Failed"})});
+app.get("/login/success",(req,res)=>{res.status(200).json({message:"successful"})});
 app.post("/register",validateData(RegisterSchema),registerHandler)
 app.get("/logout",logoutHandler)
 app.get("/auth/google",passport.authenticate("google"))
-app.get("/auth/google/callback",passport.authenticate("google"),(req,res)=>{
-    res.sendStatus(200);
-})
+app.get("/auth/google/callback",passport.authenticate("google",{
+    successRedirect:process.env.CLIENT_URL,
+    failureRedirect:"/api/v1/login/failed"
+}))
 
 app.get('/clubs',getClubsHandler);
 app.get('/clubs/:id',clubsDetailsHandler);
@@ -35,8 +38,7 @@ app.delete('/clubs/:id',deleteClubHandler)
 
 app.get('/matches',getMatchesHandler)
 app.get('/matches/:id',matchesDetailsHandler)
-//validateData(createMatchSchema),
-app.post('/matches',createMatchesHandler)
+app.post('/matches',validateData(createMatchSchema),createMatchesHandler)
 app.patch('/matches/:id',validateData(updateMatchSchema),updateMatchesHandler)
 app.post('/matches/:id/addGoals',validateData(addGoalMatchSchema),addGoalMatchesHandler)
 app.delete('/matches/:id',deleteMatchesHandler)
