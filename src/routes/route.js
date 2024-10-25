@@ -12,7 +12,6 @@ import { addCardSchema, addGoalMatchSchema, createMatchSchema, updateMatchSchema
 import { createPlayerSchema, updatePlayerSchema } from './player/player.schema.js';
 import { LoginSchema, RegisterSchema } from './auth/auth.schema.js';
 import swaggerUi from "swagger-ui-express"
-// import { serve as swaggerUi } from 'swagger-ui-express';
 import { swaggerDocument } from '../utils/swagger/importjson.js';
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage }); 
