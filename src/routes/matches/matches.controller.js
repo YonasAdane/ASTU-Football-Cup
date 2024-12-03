@@ -1,4 +1,4 @@
-import { addGoal, createMatch, FindAllMatches, MatchDetail, UpdateMatch } from "./matches.service.js"
+import { addCard, addGoal, createMatch, DeleteMatch, FindAllMatches, MatchDetail, UpdateMatch } from "./matches.service.js"
 
 //Retrieves a list of all matches, along with their status and scores.
 async function getMatchesHandler(req,res){

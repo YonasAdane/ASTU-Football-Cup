@@ -70,7 +70,7 @@ export async function UpdateMatch(matchId, updateData) {
     throw error;
   }
 }
-
+ 
 
 export async function addGoal(matchId, clubId, playerId, assistId, time) {
   try {
@@ -152,23 +152,46 @@ export async function addCard(matchId, clubId, playerId, color, time) {
       if (!match) {
         throw new Error('Match not found');
       }
-  
+      
       match.cards.push({
         club: clubId,
         player: playerId,
         color,
         time
       });
-  
+      
+      
       await match.save();
+      // await Player.findByIdAndUpdate()
+      const player = await Player.findById(playerId)
+      if(color==="red"){
+        await Player.findByIdAndUpdate(
+          playerId, 
+        { $set: {redCard:player.redCard+1} }, 
+        { new: true } 
+      );
+
+      }else if(color==="yellow"){
+        await Player.findByIdAndUpdate(
+          playerId, 
+        { $set: {yellowCard:player.yellowCard+1} }, 
+        { new: true } 
+      );
+      }else{ 
+        throw new Error("Invalid Color choose either red or yellow")
+      }
+
+    if (!player) {
+      console.log("Player not found");
+      return null;
+    }
       return match;
-      // console.log('Card added successfully');
     } catch (error) {
-      console.error('Error adding card:', error);
+      throw new Error('Error adding card:', error);
     }
   }
 
-export async function removeCard(matchId, cardId) {
+export async function removeCard(matchId, playerId,color) {
     try {
       // Find the match by its ID
       let match = await Match.findById(matchId);
@@ -176,15 +199,28 @@ export async function removeCard(matchId, cardId) {
       if (!match) {
         throw new Error('Match not found');
       }
-  
-      const card = match.cards.id(cardId);
-      if (!card) {
-        throw new Error('Card not found');
-      }  
-      card.remove();
+      
+      match.cards=match.cards.filter(card=>{return !card.player.equals(playerId) && card.color!==color});
+      
+      const player = await Player.findById(playerId)
+      if(color==="red"){
+        await Player.findByIdAndUpdate(
+          playerId, 
+        { $set: {redCard:player.redCard-1} }, 
+        { new: true } 
+      );
+
+      }else if(color==="yellow"){
+        await Player.findByIdAndUpdate(
+          playerId, 
+        { $set: {yellowCard:player.yellowCard-1} }, 
+        { new: true } 
+      );
+      }else{ 
+        throw new Error("Invalid Color choose either red or yellow")
+      }
       await match.save();
       return match;
-      // console.log('Card removed successfully');
     } catch (error) {
       throw new Error('Error removing card:');
     }

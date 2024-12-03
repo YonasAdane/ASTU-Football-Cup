@@ -3,6 +3,8 @@ const { Schema } = mongoose;
 
 const playerSchema = new Schema({
     name: { type: String, required: true },
+    studentId:{type:String},
+    status:{type:String,enum:["active","inactive"],default:"active"},
     avatar:{
       public_id:String,
       url:String
@@ -11,8 +13,10 @@ const playerSchema = new Schema({
     position: { type: String },  // E.g. Forward, Midfielder
     jerseyNumber: { type: Number },
     goals: { type: Number, default: 0 },
-    assist:{type:Number}
-  });
+    assist:{type:Number},
+    redCard:{type:Number, default:0},
+    yellowCard:{type:Number, default:0},
+    });
   
   const Player = mongoose.model('Player', playerSchema);
   export default Player;
