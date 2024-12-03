@@ -1,4 +1,5 @@
-import cloudinary from "../../utils/cloudinary.js";
+import { BaseError } from "../../error/customError.js";
+import { uploadToCloudinary } from "../../utils/uploadToCloud.js";
 import { DeletePlayer,PlayerDetail,CreatePlayer, FindAllPlayers, UpdatePlayer } from "./player.service.js"
 
 async function getPlayerHandler(req,res){
@@ -6,20 +7,22 @@ const players=await FindAllPlayers();
 return res.json(players)
 }
 async function createPlayerHandler(req,res){
-    const {name,positon,jerseynumber,goals,assist,avatar}=req.body;
-    const uploadResult = await cloudinary.uploader
-       .upload(
-        avatar,
-         {
-               folder:"ASTU-sport/playerAvatar"
-           }
-       )
-    const player=await CreatePlayer(name,positon,jerseynumber,goals,assist,uploadResult.publicId,uploadResult.logoUrl);
+    const {name,position,jerseyNumber,goals,assist}=req.body;
+    if(!req.file.buffer){
+         throw new BaseError("Image is not Uploaded",400);
+    }
+    const uploadResult = await uploadToCloudinary(req.file.buffer,"playerAvatar");
+    const player=await CreatePlayer(name,position,jerseyNumber,goals,assist,uploadResult.public_id,uploadResult.url);
     return res.json(player); 
 }  
 async function updatePlayerHandler(req,res){
     const playerId=req.params.id;
     const data=req.body;
+    if (req.file) {
+        const uploadResult = await uploadToCloudinary(req.file.buffer,"playerAvatar");
+        data.logo.public_id=uploadResult.public_id;
+        data.logo.url=uploadResult.secure_url;
+    }
     const player= UpdatePlayer(playerId,data);
     return res.json(player);
 }

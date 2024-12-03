@@ -2,11 +2,13 @@ import { z } from 'zod';
 
 export const createClubSchema = z.object({
     name:z.string(),
+    abbreviation:z.string(),
     coach:z.string(),
 })
 
 export const updateClubScheme=z.object({
-    name: z.string(),
+        name: z.string(),
+        abbreviation:z.string(),
         coach: z.string(),
         players: [z.string()],  
         logo:{

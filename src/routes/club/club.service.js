@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
 import Club from "../../models/club.js";
 
 export async function FindAllClubs(){
     const clubs=await Club.find({});
     return clubs;
 }
-export async function CreateClub(name,coach,publicId,logoUrl){
+export async function CreateClub(name,abbreviation,coach,publicId,logoUrl){
     const club=await Club.create({
         name,
+        abbreviation,
         coach,
         logo:{
             public_id:publicId,

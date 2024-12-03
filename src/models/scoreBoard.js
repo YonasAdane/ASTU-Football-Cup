@@ -14,4 +14,4 @@ const scoreboardSchema = new Schema({
 });
 
 const Scoreboard = mongoose.model('Scoreboard', scoreboardSchema);
-module.exports = Scoreboard;
+export default Scoreboard;

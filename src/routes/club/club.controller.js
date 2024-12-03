@@ -3,7 +3,7 @@ import { ClubDetail, CreateClub, DeleteClub, FindAllClubs } from "./club.service
 
 async function createClubHandler(req, res) {
     try {
-        const { name, coach } = req.body;
+        const { name, coach,abbreviation } = req.body;
         console.log("req body: ",req.body);
         // Ensure a file was uploaded
         if (!req.file) {
@@ -13,7 +13,7 @@ async function createClubHandler(req, res) {
         const uploadResult = await uploadToCloudinary(req.file.buffer,"club-logo");
 
         // Create the club with the uploaded image details
-        const club = await CreateClub(name, coach, uploadResult.public_id, uploadResult.secure_url);
+        const club = await CreateClub(name,abbreviation, coach, uploadResult.public_id, uploadResult.secure_url);
 
         return res.json(club);
     } catch (error) {
@@ -33,14 +33,17 @@ async function clubsDetailsHandler(req,res){
 }
 
 
-//Updates an existing football club by ID.
 async function updateClubHandler(req,res){
     const data=req.body;
     const clubId=req.params.id;
+    if (req.file) {
+        const uploadResult = await uploadToCloudinary(req.file.buffer,"club-logo");
+        data.logo.public_id=uploadResult.public_id;
+        data.logo.url=uploadResult.secure_url;
+    }
     const club=await UpdateClub(clubId,data);
     return res.json(club);
 }
-//Deletes a football club by ID.
 async function deleteClubHandler(req,res){
     const ClubId=req.params.id;
     console.log(ClubId);
