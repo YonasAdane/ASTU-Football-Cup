@@ -13,6 +13,13 @@ export function uploadToCloudinary(fileBuffer,path) {
                 }
             }
         );
-        stream.end(fileBuffer); // Send the buffer to Cloudinary
+        stream.end(fileBuffer); 
     });
 }
+export function uploadToCloudinaryByLink(fileAddress,path) {
+    return cloudinary.uploader.upload(
+            fileAddress,
+            { folder: `ASTU-sport/${path}`, resource_type: "image" },
+        ).then((data)=>{return data});
+    }
+ 

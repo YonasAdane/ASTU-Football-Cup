@@ -2,7 +2,7 @@ import {z} from "zod";
 
 export const createPlayerSchema = z.object({
     name: z.string(),
-    // avatar:z.string(),
+    avatar:z.string().optional(),
     // club: z.string(),
     position: z.string(), 
     jerseyNumber: z.coerce.number(),
