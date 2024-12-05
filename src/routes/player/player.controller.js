@@ -8,7 +8,6 @@ return res.json(players)
 }
 async function createPlayerHandler(req,res){
     const {name,position,jerseyNumber,goals,assist}=req.body;
-    console.log(req.body.avatar);
     if(req.body.avatar){
         const uploadResult = await uploadToCloudinaryByLink(req.body.avatar,"playerAvatar");
         const player=await CreatePlayer(name,position,jerseyNumber,goals,assist,uploadResult.public_id,uploadResult.url);

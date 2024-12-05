@@ -29,6 +29,6 @@ export async function UpdateClub(ClubId,data){
     return club;
 }
 export async function ClubDetail(ClubId){
-    const clubs=await Club.findById(ClubId);
+    const clubs=await Club.findById(ClubId).populate('players');
     return clubs;
 }

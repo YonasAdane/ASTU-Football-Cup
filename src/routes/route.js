@@ -1,7 +1,7 @@
 import express from 'express'
 import multer from 'multer';
 import passport from '../utils/passport.js';
-import { getClubsHandler,clubsDetailsHandler,createClubHandler,updateClubHandler,deleteClubHandler} from './club/club.controller.js';
+import { getClubsHandler,clubsDetailsHandler,createClubHandler,updateClubHandler,deleteClubHandler, addPlayerClubHandler, removePlayerClubHandler} from './club/club.controller.js';
 import { createMatchesHandler, deleteMatchesHandler,addCardHandler, getMatchesHandler, matchesDetailsHandler, addGoalMatchesHandler, updateMatchesHandler } from './matches/matches.controller.js';
 import { createScheduleHandler, deleteScheduleHandler, getScheduleHandler, ScheduleDetailsHandler, updateScheduleHandler } from './schedule/schedule.controller.js';
 import { createPlayerHandler, deletePlayerHandler, getPlayerHandler, playerDetailsHandler, updatePlayerHandler } from './player/player.controller.js';
@@ -39,6 +39,8 @@ app.get('/clubs/:id',clubsDetailsHandler);
 app.post('/clubs', upload.single('logo'),validateData(createClubSchema),createClubHandler)
 app.patch('/clubs/:id', upload.single('logo'),validateData(updateClubScheme),updateClubHandler)
 app.delete('/clubs/:id',deleteClubHandler)
+app.post('/clubs/:clubId/players/:playerId',addPlayerClubHandler)
+app.delete('/clubs/:clubId/players/:playerId',removePlayerClubHandler)
 
 app.get('/matches',getMatchesHandler)
 app.get('/matches/:id',matchesDetailsHandler)

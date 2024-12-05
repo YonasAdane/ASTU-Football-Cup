@@ -1,4 +1,5 @@
 import Player from '../../models/player.js'
+import { deleteFromCloudinary } from '../../utils/uploadToCloud.js';
 export async function FindAllPlayers(){
     const player=await Player.find({});
     return player;
@@ -19,6 +20,7 @@ export async function CreatePlayer(name,position,jerseyNumber,goals,assist,publi
 }
 export async function DeletePlayer(PlayerId){
     const player=await Player.deleteOne({_id:PlayerId});
+    await deleteFromCloudinary(player.avatar.public_id)
     return player;
 }
 export async function UpdatePlayer(PlayerId,data){

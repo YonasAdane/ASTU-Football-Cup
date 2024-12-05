@@ -22,4 +22,8 @@ export function uploadToCloudinaryByLink(fileAddress,path) {
             { folder: `ASTU-sport/${path}`, resource_type: "image" },
         ).then((data)=>{return data});
     }
- 
+export function deleteFromCloudinary(publicId){
+    return cloudinary.uploader
+            .destroy(publicId)
+            .then(result =>result);
+}
