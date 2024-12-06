@@ -36,7 +36,7 @@ app.get("/auth/google/callback",passport.authenticate("google",{
 
 app.get('/clubs',getClubsHandler);
 app.get('/clubs/:id',clubsDetailsHandler);
-app.post('/clubs', upload.single('logo'),validateData(createClubSchema),createClubHandler)
+app.post('/clubs', upload.fields([{ name: 'logo', maxCount: 1 }, { name: 'coachPhoto', maxCount:1 }]),validateData(createClubSchema),createClubHandler)
 app.patch('/clubs/:id', upload.single('logo'),validateData(updateClubScheme),updateClubHandler)
 app.delete('/clubs/:id',deleteClubHandler)
 app.post('/clubs/:clubId/players/:playerId',addPlayerClubHandler)

@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const createClubSchema = z.object({
     name:z.string(),
     abbreviation:z.string(),
+    description:z.string(),
     coach:z.string(),
 })
 

@@ -4,11 +4,16 @@ export async function FindAllClubs(){
     const clubs=await Club.find({});
     return clubs;
 }
-export async function CreateClub(name,abbreviation,coach,publicId,logoUrl){
+export async function CreateClub(name,abbreviation,description,coach,coach_publicId,coachUrl,publicId,logoUrl){
     const club=await Club.create({
         name,
         abbreviation,
+        description,
         coach,
+        coachPhoto:{
+            public_id:coach_publicId,
+            url:coachUrl
+          },
         logo:{
             public_id:publicId,
             url:logoUrl

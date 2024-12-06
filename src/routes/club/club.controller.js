@@ -5,16 +5,18 @@ import { uploadToCloudinary } from "../../utils/uploadToCloud.js";
 import { ClubDetail, CreateClub, DeleteClub, FindAllClubs } from "./club.service.js"
 
 async function createClubHandler(req, res) {
-    console.log("requesting file: ",req.file);
+    console.log("requesting file: ",req.files);
     try {
-        const { name, coach,abbreviation } = req.body;
+        const { name,description, coach,abbreviation } = req.body;
         console.log("req body: ",req.body);
-        if (!req.file) {
-            return res.status(400).json({ message: "No file uploaded" });
+        if (!req.files["logo"] || !req.files["coachPhoto"]) {
+            return res.status(400).json({ message: "No file uploaded neither logo nor coachPhoto" });
         }
-        const uploadResult = await uploadToCloudinary(req.file.buffer,"club-logo");
+        
+        const uploadResult = await uploadToCloudinary(req.files["logo"][0].buffer,"club-logo");
+        const uploadCoachResult = await uploadToCloudinary(req.files["coachPhoto"][0].buffer,"coach-photo");
 
-        const club = await CreateClub(name,abbreviation, coach, uploadResult.public_id, uploadResult.secure_url);
+        const club = await CreateClub(name,abbreviation,description,coach, uploadCoachResult.public_id,uploadCoachResult.secure_url, uploadResult.public_id, uploadResult.secure_url,);
 
         return res.json(club);
     } catch (error) {

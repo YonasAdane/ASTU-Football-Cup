@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const clubSchema = new Schema({
   name: { type: String, required: true, unique: true },
   abbreviation:{type:String},
+  description:{type:String},
   coach: { type: String },
   coachPhoto:{
     public_id:String,
